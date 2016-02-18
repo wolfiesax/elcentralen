@@ -13,18 +13,18 @@ filename="energyMon.1.0.rrd"
 # min value = 0
 # max value = (U)ndefined
 #
-# RRA:AVERAGE:0.5:1m:48h \
-# - Average data at 1m during 1m for 48h
-# RRA:AVERAGE:0.5:30m:14d \
-# - Average data at 1m during 30m for 14d
-# RRA:AVERAGE:0.5:1h:60d \
-# - Average data at 1m during 1h for 60d
-# RRA:AVERAGE:0.5:1h:180d \
-# - Average data at 1m during 1h for 180d
-# RRA:AVERAGE:0.5:1d:360d \
-# - Average data at 1m during 1d for 360d
-# RRA:AVERAGE:0.5:1d:720d
-# - Average data at 1m during 1d for 720d
+# RRA:AVERAGE:0.5:1m:24h \
+# - Average data at 1m during 1m for 24h
+# RRA:AVERAGE:0.5:30m:1w \
+# - Average data at 1m during 30m for 1w
+# RRA:AVERAGE:0.5:1h:1M \
+# - Average data at 1m during 1h for 1M
+# RRA:AVERAGE:0.5:1h:3M \
+# - Average data at 1m during 1h for 3M
+# RRA:AVERAGE:0.5:1d:6M \
+# - Average data at 1m during 1d for 6M
+# RRA:AVERAGE:0.5:1d:1y
+# - Average data at 1m during 1d for 1y
 
 # Check i file already exists  
 if [ ! -f "$directory$filename" ]
@@ -34,12 +34,12 @@ then
   rrdtool create $directory$filename \
   --step 60 \
 DS:eMon:COUNTER:1200:0:U \
-RRA:AVERAGE:0.5:1m:48h \
-RRA:AVERAGE:0.5:30m:14d \
-RRA:AVERAGE:0.5:1h:60d \
-RRA:AVERAGE:0.5:1h:180d \
-RRA:AVERAGE:0.5:1d:360d \
-RRA:AVERAGE:0.5:1d:720d
+RRA:AVERAGE:0.5:1m:24h \
+RRA:AVERAGE:0.5:30m:1w \
+RRA:AVERAGE:0.5:1h:1M \
+RRA:AVERAGE:0.5:1h:3M \
+RRA:AVERAGE:0.5:1d:6M \
+RRA:AVERAGE:0.5:1d:1y
 else
   echo $directory$filename" already exists, delete it first."
 fi
