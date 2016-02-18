@@ -1,0 +1,2 @@
+# m h  dom mon dow   command
+*/1 * * * * sleep 10; /home/pi/bin/cpToPannrum.sh
