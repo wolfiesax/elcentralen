@@ -1,0 +1,24 @@
+Having updated firmware of Raspberry Pi using commands:
+1. sudo rpi-update
+2. sudo reboot
+it is likely Wifi driver 8188 is no longer working properly. If so: 
+3. Connect to the Raspberry Pi using an ethernet cable using and ssh:
+ssh pi@10.0.1.28
+
+4. Check current Linux kernel:
+uname -a
+
+5. Visit URL below and follow instructions to download and install 8188 Wifi 
+driver for Linux kernel in step 4.
+https://www.raspberrypi.org/forums/viewtopic.php?p=462982
+
+6. Either
+6.1 a) Activate driver directly using commands:
+    b) sudo modprobe 8188eu
+    c) ifconfig 
+       Interface wlan0 should now be visible, active and using IP address 10.0.1.20.
+6.2 a) or reboot Raspberry Pi using command:
+    b) sudo reboot
+    c) ifconfig 
+       Interface wlan0 should now be visible, active and using IP address 10.0.1.20.
+
