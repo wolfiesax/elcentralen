@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOCAL_DIR="/home/pi/png/"
+LOCAL_DIR="/home/pi/bin/png/"
 REMOTE_DIR="/var/www/html/"
 
 cd $LOCAL_DIR
