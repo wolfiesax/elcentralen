@@ -1,8 +1,8 @@
 #!/bin/bash
 
-directory="/home/pi/rrdData/"
+directory="/home/pi/bin/rrdData/"
 filename="energyMon.1.0.rrd"
-pngDir="/home/pi/png/"
+pngDir="/home/pi/bin/png/"
 
 # Energy monitor with 1000 pulses per kWh.
 SCALE_FACTOR=1.0
