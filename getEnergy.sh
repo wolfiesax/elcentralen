@@ -18,22 +18,26 @@ echo $COUNT
 # Floating point operations in bash
 VALUE=`echo "$SCALE_FACTOR $COUNT" |awk '{printf "%.0f", ($1 * $2)}'`
 
-# Read previous counter value
-CNT_PREV=`cat /home/pi/bin/counters/energy_meter`
-# Update with new counter value
-/bin/echo ${VALUE} > /home/pi/bin/counters/energy_meter
+## Read previous counter value
+#CNT_PREV=`cat /home/pi/bin/counters/energy_meter`
+## Update with new counter value
+#/bin/echo ${VALUE} > /home/pi/bin/counters/energy_meter
+#
+## Handle counter wrap
+#if [ $VALUE -ge $CNT_PREV ]; then
+#
+#  # Calculate delta: Number of W consumed during last minute, Wmin
+#  CNT_DELTA=`echo "$VALUE $CNT_PREV" | /usr/bin/awk '{printf "%.0f", ($1 - $2)}'`
+#  /bin/echo ${CNT_DELTA} > /home/pi/bin/1D.01F80C000000/counters.A
+#
+#  # Scale to Wh
+#  CNT_DELTA=`echo "60 $CNT_DELTA" | /usr/bin/awk '{printf "%.0f", ($1 * $2)}'`
+#  #/bin/echo ${CNT_DELTA} > /home/pi/bin/1D.01F80C000000/counters.B
+#fi
 
-# Handle counter wrap
-if [ $VALUE -ge $CNT_PREV ]; then
-
-  # Calculate delta: Number of W consumed during last minute, Wmin
-  CNT_DELTA=`echo "$VALUE $CNT_PREV" | /usr/bin/awk '{printf "%.0f", ($1 - $2)}'`
-  /bin/echo ${CNT_DELTA} > /home/pi/bin/1D.01F80C000000/counters.A
-
-  # Scale to Wh
-  CNT_DELTA=`echo "60 $CNT_DELTA" | /usr/bin/awk '{printf "%.0f", ($1 * $2)}'`
-  /bin/echo ${CNT_DELTA} > /home/pi/bin/1D.01F80C000000/counters.B
-fi
+# Save counter values to be used in remote RPi running Domoticz and a pseudo 
+# 1wire system
+/bin/echo ${VALUE} > /home/pi/bin/1D.01F80C000000/counters.A
 
 #echo $VALUE
 /usr/bin/rrdtool update $directory$filename N:$VALUE
