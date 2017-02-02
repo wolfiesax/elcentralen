@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Copy sensor values to file, to be used for HomeAutomation
+#W=`/usr/bin/rrdtool fetch /home/pi/bin/rrdData/energyMon.1.0.rrd AVERAGE | /usr/bin/head -4 | /usr/bin/tail -1 | /bin/sed 's/.*: //' | /usr/bin/awk {' printf "%5.9f",$1 '}`
+#W_NOW=`echo "$W 3600" | /usr/bin/awk '{printf "%.0f", ($1 * $2)}'`
+#W_NOW=`echo "$W 1" | /usr/bin/awk '{printf "%.0f", ($1 * $2)}'`
+#/bin/echo ${W_NOW} > /home/pi/bin/1D.01F80C000000/counters.A
+
 directory="/home/pi/bin/rrdData/"
 filename="energyMon.1.0.rrd"
 pngDir="/home/pi/bin/png/"
@@ -11,7 +17,20 @@ echo $COUNT
 
 # Floating point operations in bash
 VALUE=`echo "$SCALE_FACTOR $COUNT" |awk '{printf "%.0f", ($1 * $2)}'`
-echo $VALUE
+
+# Read previous counter value
+CNT_PREV=`cat /home/pi/bin/counters/energy_meter`
+# Update with new counter value
+/bin/echo ${VALUE} > /home/pi/bin/counters/energy_meter
+# Calculate delta: Number of W consumed during last minute, Wmin
+CNT_DELTA=`echo "$VALUE $CNT_PREV" | /usr/bin/awk '{printf "%.0f", ($1 - $2)}'`
+/bin/echo ${CNT_DELTA} > /home/pi/bin/1D.01F80C000000/counters.A
+
+# Scale to Wh
+CNT_DELTA=`echo "60 $CNT_DELTA" | /usr/bin/awk '{printf "%.0f", ($1 * $2)}'`
+/bin/echo ${CNT_DELTA} > /home/pi/bin/1D.01F80C000000/counters.B
+
+#echo $VALUE
 /usr/bin/rrdtool update $directory$filename N:$VALUE
 
 pngName=""
@@ -68,4 +87,3 @@ for k in `seq 1 6`;
       GPRINT:W:LAST:"Just nu\: %0.2lf%sW\n" \
       COMMENT:"Terrängvägen 23, 17760, Järfälla"
 done
-
