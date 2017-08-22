@@ -45,30 +45,34 @@ VALUE=`echo "$SCALE_FACTOR $COUNT" |awk '{printf "%.0f", ($1 * $2)}'`
 pngName=""
 startStr=""
 
-for k in `seq 1 6`;
+for k in `seq 1 7`;
   do
     case "$k" in
       1)
+        pngName="energy-1h.png"
+        startStr="-1h"
+        ;;
+      2)
         pngName="energy-24h.png"
         startStr="-24h"
         ;;
-      2)
+      3)
         pngName="energy-7d.png"
         startStr="-1w"
         ;;
-      3)
+      4)
         pngName="energy-30d.png"
         startStr="-30days"
         ;;
-      4)
+      5)
         pngName="energy-90d.png"
         startStr="-90days"
         ;;
-      5)
+      6)
         pngName="energy-180d.png"
         startStr="-180days"
         ;;
-      6)
+      7)
         pngName="energy-365d.png"
         startStr="-365days"
         ;;
